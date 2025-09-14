@@ -1,0 +1,27 @@
+{
+  "name": "peti-back",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node src/infraestructure/http/server.ts",
+    "dev": "nodemon src/infraestructure/http/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Danilo Zapata",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/jwt": "^10.0.0",
+    "@types/node": "^24.3.3",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.1",
+    "fastify": "^5.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
+    "tsyringe": "^4.10.0"
+  }
+}
