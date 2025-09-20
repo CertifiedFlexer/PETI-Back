@@ -20,6 +20,6 @@ export class LoginUser {
     console.log('User logged in:', user.email);
     const token = this.tokenService.generate({ userId: user.idUsuario, rol: user.idRol });
     console.log('Generated token:', token);
-    return { token, id: user.idUsuario, name: user.nombre };
+    return { token, id: user.idUsuario, name:user.nombre, email: user.email };
   }
 }
