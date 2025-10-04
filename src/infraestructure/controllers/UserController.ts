@@ -24,7 +24,6 @@ export class UserController {
     reply: FastifyReply
   ) {
     try {
-      // mapeo body → dominio
       const mappedUser = {
         name: req.body.nombre,
         email: req.body.email,
