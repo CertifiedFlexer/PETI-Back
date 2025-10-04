@@ -7,6 +7,8 @@ import { userRoutes } from './routes/UserRoutes';
 import { roleRoutes } from './routes/RoleRoute';
 import jwt from '@fastify/jwt'
 import cors from '@fastify/cors'
+import PetRoute from './routes/PetRoute';
+import ProviderRoute from './routes/ProviderRoute';
 
 
 const fastify = Fastify({
@@ -46,6 +48,13 @@ fastify.register(userRoutes, {
 fastify.register(roleRoutes, {
   prefix: '/api'
 })
+fastify.register(PetRoute, {
+  prefix: '/api'
+})
+fastify.register(ProviderRoute, {
+  prefix: '/api'
+})
+
 
 const start = async () => {
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3000

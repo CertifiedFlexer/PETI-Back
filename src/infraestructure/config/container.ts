@@ -4,6 +4,8 @@ import { IRoleRepository } from '../../domain/interfaces/Role.interface';
 import { ITokenService } from '../../domain/interfaces/Token.interface';
 import { PostgresUserRepository } from '../database/PostgresUserRepository';
 import { PostgresRoleRepository } from '../database/PostgresRoleRepository';
+import { PostgresProviderRepository } from '../database/PostgresProviderRepository';
+import { PostgresPetRepository } from '../database/PostgresPetRepository';
 import { UserController } from '../controllers/UserController';
 import { RoleController } from '../controllers/RoleController';
 import { CreateUser } from '../../application/user/CreateUser';
@@ -23,6 +25,10 @@ import { GetRoleById } from '../../application/role/GetRoleById';
 import { JwtTokenService } from '../security/JwtTokenService';
 import { pool } from '../database/db';
 import { Pool } from 'pg';
+import { IProviderRepository } from '../../domain/interfaces/Provider.interface';
+import { IPetRepository } from '../../domain/interfaces/Pet.interface';
+import { CreateProvider } from '../../application/provider/CreateProvider';
+import { CreatePet } from '../../application/pet/CreatePet';
 
 container.registerInstance<Pool>('Pool', pool);
 container.register<IUserRepository>('UserRepository', {
@@ -33,6 +39,12 @@ container.register<IEncrypter>('Encrypter', {
 });
 container.register<IRoleRepository>('RolesRepository',{
     useClass: PostgresRoleRepository
+});
+container.register<IProviderRepository>('ProviderRepository',{
+    useClass: PostgresProviderRepository
+});
+container.register<IPetRepository>('PetRepository',{
+    useClass: PostgresPetRepository
 });
 container.register<ITokenService>('ITokenService',{
     useValue: new JwtTokenService(process.env.JWT_SECRET)
@@ -78,4 +90,10 @@ container.register('GetAllRoles',{
 });
 container.register('GetRoleById',{
     useClass: GetRoleById
+});
+container.register('CreateProvider',{
+    useClass: CreateProvider
+});
+container.register('CreatePet',{
+    useClass: CreatePet
 });
