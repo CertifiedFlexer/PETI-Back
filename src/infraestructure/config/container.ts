@@ -29,6 +29,15 @@ import { IProviderRepository } from '../../domain/interfaces/Provider.interface'
 import { IPetRepository } from '../../domain/interfaces/Pet.interface';
 import { CreateProvider } from '../../application/provider/CreateProvider';
 import { CreatePet } from '../../application/pet/CreatePet';
+import { GetProviderByUser } from '../../application/provider/GetByUser';
+import { GetPetByUser } from '../../application/pet/GetByUser';
+import { DeletePet } from '../../application/pet/DeletePet';
+import { GetAllPets } from '../../application/pet/GetAllPets';
+import { UpdatePet } from '../../application/pet/UpdatePet';
+import { DeleteProvider } from '../../application/provider/DeleteProvider';
+import { GetAllProviders } from '../../application/provider/GetAllProviders';
+import { GetProvider } from '../../application/provider/GetProvider';
+import { UpdateProvider } from '../../application/provider/UpdateProvider';
 
 container.registerInstance<Pool>('Pool', pool);
 container.register<IUserRepository>('UserRepository', {
@@ -91,9 +100,39 @@ container.register('GetAllRoles',{
 container.register('GetRoleById',{
     useClass: GetRoleById
 });
+container.register('CreatePet',{
+    useClass: CreatePet
+});
+container.register('DeletePet',{
+    useClass: DeletePet
+});
+container.register('GetAllPets',{
+    useClass: GetAllPets
+});
+container.register('GetPet',{
+    useClass: GetPetByUser
+});
+container.register('UpdatePet',{
+    useClass: UpdatePet
+});
+container.register('GetPetByUser',{
+    useClass: GetPetByUser
+});
 container.register('CreateProvider',{
     useClass: CreateProvider
 });
-container.register('CreatePet',{
-    useClass: CreatePet
+container.register('DeleteProvider',{
+    useClass: DeleteProvider
+});
+container.register('GetAllProviders',{
+    useClass: GetAllProviders
+});
+container.register('GetProvider',{
+    useClass: GetProvider
+});
+container.register('UpdateProvider',{
+    useClass: UpdateProvider
+});
+container.register('GetProviderByUser',{
+    useClass: GetProviderByUser
 });

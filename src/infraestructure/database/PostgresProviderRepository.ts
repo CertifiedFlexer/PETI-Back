@@ -29,6 +29,11 @@ export class PostgresProviderRepository implements IProviderRepository {
     return result.rows;
   }
 
+  async findByUserId(userId: string): Promise<Provider[]> {
+    const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE id_usuario = $1 AND activo = true", [userId]);
+    return result.rows;
+  }
+
   async delete(id: string): Promise<void> {
     await this.pool.query("DELETE FROM peti_bd.proveedor WHERE id = $1", [id]);
   }

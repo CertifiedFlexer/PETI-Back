@@ -26,6 +26,10 @@ export class PostgresPetRepository implements IPetRepository {
         const result = await this.pool.query("SELECT * FROM peti_bd.mascota");
         return result.rows;
     }
+    async findByUserId(userId: string): Promise<Pet[]> {
+      const result = await this.pool.query("SELECT * FROM peti_bd.mascota WHERE id_usuario = $1 AND activo = true", [userId]);
+      return result.rows;
+    }
     async delete(id: string): Promise<void> {
       await this.pool.query("UPDATE peti_bd.mascota SET activo = false WHERE id = $1", [id]);
     }
