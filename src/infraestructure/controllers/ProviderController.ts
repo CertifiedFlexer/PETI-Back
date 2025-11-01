@@ -11,23 +11,14 @@ export class ProviderController {
     @inject("DeleteProvider") private deleteProvider: DeleteProvider,
     @inject("GetAllProviders") private getAllProviders: any,
     @inject("GetProviderByUser") private getByUserProvider: any,
-    @inject("GetProvider") private getByIdProvider: any
-
+    @inject("GetProvider") private getByIdProvider: any,
+    @inject("GetProvidersByService") private getByServiceProvider: any
   ) { }
 
   async create(req: FastifyRequest, reply: FastifyReply) {
     const providerData = req.body;
-    const mappedProviderData = {
-      nombre: providerData['nombre'],
-      contacto: providerData['contacto'],
-      direccion: providerData['direccion'] || null,
-      ciudad: providerData['ciudad'] || null,
-      pais: providerData['pais'] || null,
-      activo: providerData['activo'],
-      id_usuario: providerData['id_usuario']
-    };
     try {
-      const newProvider = await this.createProvider.execute(mappedProviderData);
+      const newProvider = await this.createProvider.execute(providerData as any);
       reply.status(201).send(newProvider);
     } catch (error) {
       reply.status(500).send(error);
@@ -75,6 +66,15 @@ export class ProviderController {
       reply.send(providers);
     }
     catch (error) {
+      reply.status(500).send(error);
+    }
+  }
+  async getProvidersByService(req: FastifyRequest, reply: FastifyReply) {
+    const { tipo_servicio } = req.params as any;
+    try {
+      const providers = await this.getByServiceProvider.execute(tipo_servicio);
+      reply.send(providers);
+    } catch (error) {
       reply.status(500).send(error);
     }
   }

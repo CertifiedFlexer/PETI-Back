@@ -24,5 +24,7 @@ export default async (fastify: FastifyInstance) => {
   }, providerController.getById.bind(providerController));
   fastify.get('/providers/user/:id_usuario', {
   }, providerController.getByUser.bind(providerController));
+  fastify.get('/providers/service/:tipo_servicio', {
+  }, providerController.getProvidersByService.bind(providerController));
 };
 

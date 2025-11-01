@@ -9,4 +9,5 @@ export interface Provider {
   fecha_registro?: Date;
   created_at: Date;
   updated_at: Date;
+  descripcion?: string;
 }
