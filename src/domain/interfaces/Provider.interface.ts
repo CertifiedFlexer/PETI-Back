@@ -7,4 +7,5 @@ export interface IProviderRepository {
   findByUserId(userId: string): Promise<Provider[]>;
   update(proveedor: Provider): Promise<Provider>;
   delete(id: string): Promise<void>;
+  getByService(serviceType: string): Promise<Provider[]>;
 }

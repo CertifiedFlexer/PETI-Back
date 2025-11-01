@@ -38,6 +38,7 @@ import { DeleteProvider } from '../../application/provider/DeleteProvider';
 import { GetAllProviders } from '../../application/provider/GetAllProviders';
 import { GetProvider } from '../../application/provider/GetProvider';
 import { UpdateProvider } from '../../application/provider/UpdateProvider';
+import { GetProvidersByService } from '../../application/provider/GetProviderByService';
 
 container.registerInstance<Pool>('Pool', pool);
 container.register<IUserRepository>('UserRepository', {
@@ -135,4 +136,7 @@ container.register('UpdateProvider',{
 });
 container.register('GetProviderByUser',{
     useClass: GetProviderByUser
+});
+container.register("GetProvidersByService",{ 
+    useClass: GetProvidersByService 
 });
