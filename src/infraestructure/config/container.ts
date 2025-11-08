@@ -39,6 +39,9 @@ import { GetAllProviders } from '../../application/provider/GetAllProviders';
 import { GetProvider } from '../../application/provider/GetProvider';
 import { UpdateProvider } from '../../application/provider/UpdateProvider';
 import { GetProvidersByService } from '../../application/provider/GetProviderByService';
+import { CitaService } from '../../application/appointment/Appointment.service';
+import { PostgresAppointmentRepository } from '../database/PostgresAppointmentRepository';
+import { CitaController } from '../controllers/AppointmentController';
 
 container.registerInstance<Pool>('Pool', pool);
 container.register<IUserRepository>('UserRepository', {
@@ -58,6 +61,9 @@ container.register<IPetRepository>('PetRepository',{
 });
 container.register<ITokenService>('ITokenService',{
     useValue: new JwtTokenService(process.env.JWT_SECRET)
+});
+container.register('AppointmentRepository',{
+    useClass: PostgresAppointmentRepository
 });
 container.register('GetUserById', {
     useClass: GetUserById
@@ -139,4 +145,10 @@ container.register('GetProviderByUser',{
 });
 container.register("GetProvidersByService",{ 
     useClass: GetProvidersByService 
+});
+container.register('AppointmentService',{
+    useClass: CitaService
+});
+container.register('CitaController',{
+    useClass: CitaController
 });
