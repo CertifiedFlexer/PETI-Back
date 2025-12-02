@@ -39,6 +39,7 @@ import { GetAllProviders } from '../../application/provider/GetAllProviders';
 import { GetProvider } from '../../application/provider/GetProvider';
 import { UpdateProvider } from '../../application/provider/UpdateProvider';
 import { GetProvidersByService } from '../../application/provider/GetProviderByService';
+import { ProviderImageService } from '../../application/provider/ProviderImage.service';
 
 container.registerInstance<Pool>('Pool', pool);
 container.register<IUserRepository>('UserRepository', {
@@ -139,4 +140,7 @@ container.register('GetProviderByUser',{
 });
 container.register("GetProvidersByService",{ 
     useClass: GetProvidersByService 
+});
+container.register("ProviderImageService",{ 
+    useClass: ProviderImageService
 });
