@@ -19,18 +19,31 @@ export class PostgresProviderRepository implements IProviderRepository {
   }
 
   async findById(id: string): Promise<Provider | null> {
-    const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE id = $1", [id]);
+    const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE id_proveedor = $1", [id]);
     const provider = result.rows[0];
+    if (!provider.image_url)
+      provider.image_url = "https://res.cloudinary.com/dncemjtsb/image/upload/v1764625379/pexels-pixabay-65928_qryfq4.jpg";
+    console.log("Fetched provider:", provider);
     return provider;
   }
 
   async findAll(): Promise<Provider[]> {
     const result = await this.pool.query("SELECT * FROM peti_bd.proveedor");
+    result.rows.forEach((provider) => {
+      if (!provider.image_url) {
+        provider.image_url = "https://res.cloudinary.com/dncemjtsb/image/upload/v1764625379/pexels-pixabay-65928_qryfq4.jpg";
+      }
+    });
     return result.rows;
   }
 
   async findByUserId(userId: string): Promise<Provider[]> {
     const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE id_usuario = $1", [userId]);
+    result.rows.forEach((provider) => {
+      if (!provider.image_url) {
+        provider.image_url = "https://res.cloudinary.com/dncemjtsb/image/upload/v1764625379/pexels-pixabay-65928_qryfq4.jpg";
+      }
+    });
     return result.rows;
   }
 
@@ -41,6 +54,23 @@ export class PostgresProviderRepository implements IProviderRepository {
   async getByService(serviceType: string): Promise<Provider[]> {
     console.log("Fetching providers for service type:", serviceType);
     const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE tipo_servicio = $1", [serviceType]);
+    result.rows.forEach((provider) => {
+      if (!provider.image_url) {
+        provider.image_url = "https://res.cloudinary.com/dncemjtsb/image/upload/v1764625379/pexels-pixabay-65928_qryfq4.jpg";
+      }
+    });
     return result.rows;
+  }
+  async uploadImage(providerId: string, imageUrl: string): Promise<Provider> {
+    const result = await this.pool.query("UPDATE peti_bd.proveedor SET image_url = $1 WHERE id_proveedor = $2 RETURNING *", [imageUrl, providerId]);
+    return result.rows[0];
+  }
+  async updateImage(providerId: string, imageUrl: string): Promise<Provider> {
+    const result = await this.pool.query("UPDATE peti_bd.proveedor SET image_url = $1 WHERE id_proveedor = $2 RETURNING *", [imageUrl, providerId]);
+    return result.rows[0];
+  }
+  async deleteImage(providerId: string): Promise<Provider> {
+    const result = await this.pool.query("UPDATE peti_bd.proveedor SET image_url = NULL WHERE id_proveedor = $1 RETURNING *", [providerId]);
+    return result.rows[0];
   }
 }

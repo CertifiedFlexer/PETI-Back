@@ -9,11 +9,15 @@ import jwt from '@fastify/jwt'
 import cors from '@fastify/cors'
 import PetRoute from './routes/PetRoute';
 import ProviderRoute from './routes/ProviderRoute';
+import multipart from '@fastify/multipart';
 
 
 const fastify = Fastify({
   logger: true
 })
+fastify.register(multipart, {
+
+});
 fastify.register(jwt, {
   secret: process.env.JWT_SECRET
 })

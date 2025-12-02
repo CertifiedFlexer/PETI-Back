@@ -8,4 +8,7 @@ export interface IProviderRepository {
   update(proveedor: Provider): Promise<Provider>;
   delete(id: string): Promise<void>;
   getByService(serviceType: string): Promise<Provider[]>;
+  uploadImage(providerId: string, imageUrl: string): Promise<Provider>;
+  updateImage(providerId: string, imageUrl: string): Promise<Provider>;
+  deleteImage(providerId: string): Promise<Provider>;
 }

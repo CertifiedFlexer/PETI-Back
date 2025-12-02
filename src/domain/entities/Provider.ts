@@ -9,5 +9,7 @@ export interface Provider {
   fecha_registro?: Date;
   created_at: Date;
   updated_at: Date;
+  imagenPublicId?: string; 
+  imagenUrl?: string;
   descripcion?: string;
 }
