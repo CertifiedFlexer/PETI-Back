@@ -7,38 +7,52 @@ import { CitaService } from "../../application/appointment/Appointment.service";
 export class CitaController {
   constructor(@inject("AppointmentService") private appointmentService: CitaService) {}
 
-  async createAppointment(req: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const data: Cita = <Cita>req.body;
-    const cita = await this.appointmentService.create(data);
-    reply.status(201).send(cita);
+  async create(req: FastifyRequest, reply: FastifyReply) {
+    const citaData = req.body as Cita;
+    try {
+      const newCita = await this.appointmentService.create(citaData);
+      reply.status(201).send(newCita);
+    } catch (error) {
+      reply.status(500).send(error);
+    }
   }
-    async getAppointmentById(req: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const { id_cita } = req.params as any;
-    const cita = await this.appointmentService.getById(id_cita);
-    if (cita) {
+
+  async getById(req: FastifyRequest, reply: FastifyReply) {
+    const { id } = req.params as any;
+    try {
+      const cita = await this.appointmentService.getById(id);
       reply.send(cita);
-    } else {
-      reply.status(404).send({ message: "Cita not found" });
+    } catch (error) {
+      reply.status(500).send(error);
     }
-    }
-    async updateAppointment(req: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const data: Cita = <Cita>req.body;
-    const cita = await this.appointmentService.update(data);
-    reply.send(cita);
-    }
-    async deleteAppointment(req: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const { id_cita } = req.params as any;
-    await this.appointmentService.delete(id_cita);
-    reply.status(204).send();
-    }
-    async listAppointmentsByUser(req: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const { id_usuario } = req.params as any;
-    const citas = await this.appointmentService.listByUser(id_usuario);
-    reply.send(citas);
   }
-  async listAppointmentsByProvider(req: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const { id_proveedor } = req.params as any;
-    const citas = await this.appointmentService.listByProvider(id_proveedor);
-    reply.send(citas);
+  async getByUser(req: FastifyRequest, reply: FastifyReply) {
+    const { userId } = req.params as any;
+    try {
+      const citas = await this.appointmentService.getByUser(userId);
+      reply.send(citas);
+    } catch (error) {
+      reply.status(500).send(error);
+    }
+  }
+
+  async getByProvider(req: FastifyRequest, reply: FastifyReply) {
+    const { providerId } = req.params as any;
+    try {
+      const citas = await this.appointmentService.getByProvider(providerId);
+      reply.send(citas);
+    } catch (error) {
+      reply.status(500).send(error);
+    }
+  }
+  async updateStatus(req: FastifyRequest, reply: FastifyReply) {
+    const { id } = req.params as any;
+    const { status } = req.body as any;
+    try {
+      await this.appointmentService.updateStatus(id, status);
+      reply.status(204).send();
+    } catch (error) {
+      reply.status(500).send(error);
+    }
   }
 }
