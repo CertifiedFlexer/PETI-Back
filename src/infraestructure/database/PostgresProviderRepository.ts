@@ -38,6 +38,7 @@ export class PostgresProviderRepository implements IProviderRepository {
   }
 
   async findByUserId(userId: string): Promise<Provider[]> {
+    console.log("Fetching providers for user ID:", userId);
     const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE id_usuario = $1", [userId]);
     result.rows.forEach((provider) => {
       if (!provider.image_url) {

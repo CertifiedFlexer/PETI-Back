@@ -62,9 +62,10 @@ export class ProviderController {
     }
   }
   async getByUser(req: FastifyRequest, reply: FastifyReply) {
-    const { userId } = req.params as any;
+    const userId = req.params as any;
+    console.log(userId)
     try {
-      const providers = await this.getByUserProvider.execute(userId);
+      const providers = await this.getByUserProvider.execute(userId.id_usuario);
       reply.send(providers);
     }
     catch (error) {

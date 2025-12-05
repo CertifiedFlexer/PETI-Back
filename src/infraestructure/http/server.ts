@@ -5,6 +5,7 @@ import '../config/container';
 import Fastify from 'fastify';
 import { userRoutes } from './routes/UserRoutes';
 import { roleRoutes } from './routes/RoleRoute';
+import { appointmentRoutes } from './routes/AppointmentRoute';
 import jwt from '@fastify/jwt'
 import cors from '@fastify/cors'
 import PetRoute from './routes/PetRoute';
@@ -58,7 +59,9 @@ fastify.register(PetRoute, {
 fastify.register(ProviderRoute, {
   prefix: '/api'
 })
-
+fastify.register(appointmentRoutes, {
+  prefix: '/api'
+})
 
 const start = async () => {
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3000
