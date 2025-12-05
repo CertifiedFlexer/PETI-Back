@@ -116,7 +116,7 @@ export class UserController {
     reply: FastifyReply
   ) {
     try {
-      const { id } = req.params;
+      const id  = req.params.id;
       const { newPassword } = req.body;
       const updatedUser = await this.changePasswordUseCase.execute(id, newPassword);
       return reply.send({ success: true, data: updatedUser });
