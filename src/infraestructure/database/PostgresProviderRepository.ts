@@ -54,7 +54,7 @@ export class PostgresProviderRepository implements IProviderRepository {
 
   async getByService(serviceType: string): Promise<Provider[]> {
     console.log("Fetching providers for service type:", serviceType);
-    const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE tipo_servicio = $1 ORDER BY  (suscripcion >= CURRENT_DATE) DESC, suscripcion ASC;", [serviceType]);
+    const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE tipo_servicio = $1 ORDER BY CASE  WHEN suscripcion >= CURRENT_DATE THEN 0  ELSE 1  END, suscripcion ASC;", [serviceType]);
     result.rows.forEach((provider) => {
       if (!provider.image_url) {
         provider.image_url = "https://res.cloudinary.com/dncemjtsb/image/upload/v1764625379/pexels-pixabay-65928_qryfq4.jpg";
