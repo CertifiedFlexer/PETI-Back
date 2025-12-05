@@ -4,6 +4,7 @@ import { CreateProvider } from '../../application/provider/CreateProvider';
 import { UpdateProvider } from '../../application/provider/UpdateProvider';
 import { DeleteProvider } from '../../application/provider/DeleteProvider';
 import { ProviderImageService } from '../../application/provider/ProviderImage.service';
+import { UpdateSubscription } from '../../application/provider/updateSubscription';
 
 @injectable()
 export class ProviderController {
@@ -14,7 +15,8 @@ export class ProviderController {
     @inject("GetProviderByUser") private getByUserProvider: any,
     @inject("GetProvider") private getByIdProvider: any,
     @inject("GetProvidersByService") private getByServiceProvider: any,
-    @inject("ProviderImageService") private providerImageService: ProviderImageService
+    @inject("ProviderImageService") private providerImageService: ProviderImageService,
+    @inject("UpdateSubscription") private updateProviderSubscription: UpdateSubscription
   ) { }
 
   async create(req: FastifyRequest, reply: FastifyReply) {
@@ -127,7 +129,7 @@ export class ProviderController {
       reply.send(provider);
     } catch (error) {
       console.log(error);
-      reply.status(500).send({ error: error.message });
+      reply.status(500).send({ error });
     }
   }
 
@@ -138,7 +140,16 @@ export class ProviderController {
       const provider = await this.providerImageService.deleteImage(providerId);
       reply.send(provider);
     } catch (error) {
-      reply.status(500).send({ error: error.message });
+      reply.status(500).send({ error });
+    }
+  }
+  async updateSubscription(req: FastifyRequest, reply: FastifyReply) {
+    const { providerId } = req.params as any;
+    try {
+      const provider = await this.updateProviderSubscription.execute(providerId);
+      reply.send(provider);
+    } catch (error) {
+      reply.status(500).send(error);
     }
   }
 }

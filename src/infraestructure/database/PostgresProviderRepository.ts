@@ -54,7 +54,7 @@ export class PostgresProviderRepository implements IProviderRepository {
 
   async getByService(serviceType: string): Promise<Provider[]> {
     console.log("Fetching providers for service type:", serviceType);
-    const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE tipo_servicio = $1", [serviceType]);
+    const result = await this.pool.query("SELECT * FROM peti_bd.proveedor WHERE tipo_servicio = $1 ORDER BY  (suscripcion >= CURRENT_DATE) DESC, primero activos o futuros suscripcion ASC;", [serviceType]);
     result.rows.forEach((provider) => {
       if (!provider.image_url) {
         provider.image_url = "https://res.cloudinary.com/dncemjtsb/image/upload/v1764625379/pexels-pixabay-65928_qryfq4.jpg";
@@ -72,6 +72,19 @@ export class PostgresProviderRepository implements IProviderRepository {
   }
   async deleteImage(providerId: string): Promise<Provider> {
     const result = await this.pool.query("UPDATE peti_bd.proveedor SET image_url = NULL WHERE id_proveedor = $1 RETURNING *", [providerId]);
+    return result.rows[0];
+  }
+  async updateSubscription(providerId: string): Promise<Provider> {
+    const actualSubcriptionResult = await this.pool.query("SELECT suscripcion FROM peti_bd.proveedor WHERE id_proveedor = $1", [providerId]);
+    let newSubscription = new Date();
+    if (!actualSubcriptionResult.rows[0]) {
+      newSubscription.setMonth(newSubscription.getMonth() + 1);
+    } else {
+      const currentSubscription = new Date(actualSubcriptionResult.rows[0].suscripcion);
+      newSubscription = currentSubscription > new Date() ? currentSubscription : new Date();
+      newSubscription.setMonth(newSubscription.getMonth() + 1);
+    }
+    const result = await this.pool.query("UPDATE peti_bd.proveedor SET suscripcion = $1 WHERE id_proveedor = $2 RETURNING *", [newSubscription, providerId]);
     return result.rows[0];
   }
 }
