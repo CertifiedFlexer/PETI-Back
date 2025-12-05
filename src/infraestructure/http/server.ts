@@ -23,7 +23,7 @@ fastify.register(jwt, {
   secret: process.env.JWT_SECRET
 })
 fastify.register(cors,{
-  origin: true,
+  origin: ['http://localhost:19006', 'http://localhost:3000', '*'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 })
