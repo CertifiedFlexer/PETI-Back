@@ -3,6 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import { CreateProvider } from '../../application/provider/CreateProvider';
 import { UpdateProvider } from '../../application/provider/UpdateProvider';
 import { DeleteProvider } from '../../application/provider/DeleteProvider';
+import { ProviderImageService } from '../../application/provider/ProviderImage.service';
 
 @injectable()
 export class ProviderController {
@@ -12,7 +13,8 @@ export class ProviderController {
     @inject("GetAllProviders") private getAllProviders: any,
     @inject("GetProviderByUser") private getByUserProvider: any,
     @inject("GetProvider") private getByIdProvider: any,
-    @inject("GetProvidersByService") private getByServiceProvider: any
+    @inject("GetProvidersByService") private getByServiceProvider: any,
+    @inject("ProviderImageService") private providerImageService: ProviderImageService
   ) { }
 
   async create(req: FastifyRequest, reply: FastifyReply) {
@@ -77,6 +79,65 @@ export class ProviderController {
       reply.send(providers);
     } catch (error) {
       reply.status(500).send(error);
+    }
+  }
+  async uploadProviderImage(req: FastifyRequest, reply: FastifyReply) {
+    const providerId = req.params as any;
+    try {
+      const file = await req.file();
+
+      if (!file) {
+        return reply.status(400).send({ message: "No file uploaded" });
+      }
+
+      const buffer = await file.toBuffer();
+
+      const base64Image = `data:${file.mimetype};base64,${buffer.toString("base64")}`;
+
+      const provider = await this.providerImageService.uploadImage(
+        providerId.id,
+        base64Image
+      );
+
+      reply.send(provider);
+    } catch (error) {
+      console.log(error);
+      reply.status(500).send({ error: error.message });
+    }
+  }
+
+  async updateProviderImage(req: FastifyRequest, reply: FastifyReply) {
+    const { providerId } = req.params as any;
+
+    try {
+      const file = await req.file();
+
+      if (!file) {
+        return reply.status(400).send({ message: "No file uploaded" });
+      }
+
+      const buffer = await file.toBuffer();
+      const base64Image = `data:${file.mimetype};base64,${buffer.toString("base64")}`;
+
+      const provider = await this.providerImageService.updateImage(
+        providerId,
+        base64Image
+      );
+
+      reply.send(provider);
+    } catch (error) {
+      reply.status(500).send({ error: error.message });
+    }
+  }
+
+  async deleteProviderImage(req: FastifyRequest, reply: FastifyReply) {
+    const { providerId } = req.params as any;
+
+    try {
+      const provider = await this.providerImageService.deleteImage(providerId);
+      reply.send(provider);
+    } catch (error) {
+      reply.status(500).send({ error: error.message });
     }
   }
 }

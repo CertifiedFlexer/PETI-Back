@@ -26,5 +26,11 @@ export default async (fastify: FastifyInstance) => {
   }, providerController.getByUser.bind(providerController));
   fastify.get('/providers/service/:tipo_servicio', {
   }, providerController.getProvidersByService.bind(providerController));
+  fastify.post('/providers/:id/image', {
+  }, providerController.uploadProviderImage.bind(providerController));
+  fastify.put('/providers/:id/image', {
+  }, providerController.updateProviderImage.bind(providerController));
+  fastify.delete('/providers/:id/image', {
+  }, providerController.deleteProviderImage.bind(providerController));
 };
 
