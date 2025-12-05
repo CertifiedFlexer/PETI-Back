@@ -126,6 +126,7 @@ export class ProviderController {
 
       reply.send(provider);
     } catch (error) {
+      console.log(error);
       reply.status(500).send({ error: error.message });
     }
   }

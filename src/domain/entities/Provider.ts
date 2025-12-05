@@ -12,4 +12,5 @@ export interface Provider {
   imagenPublicId?: string; 
   imagenUrl?: string;
   descripcion?: string;
+  id_usuario: string;
 }
