@@ -97,11 +97,12 @@ export class UserController {
     try {
       // mapeo de body → dominio
       const mappedUser = {
-        id: req.body.id_usuario,
-        name: req.body.nombre,
+        nombre: req.body.nombre,
         email: req.body.email,
-        phone: req.body.telefono,
+        telefono: req.body.telefono,
+        idUsuario: req.body.id_usuario
       };
+      console.log(mappedUser);
 
       const updatedUser = await this.updateUserUseCase.execute(mappedUser);
       return reply.send({ success: true, data: updatedUser });

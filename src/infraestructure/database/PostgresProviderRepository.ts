@@ -49,7 +49,7 @@ export class PostgresProviderRepository implements IProviderRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.pool.query("DELETE FROM peti_bd.proveedor WHERE id = $1", [id]);
+    await this.pool.query("DELETE FROM peti_bd.proveedor WHERE id_proveedor = $1", [id]);
   }
 
   async getByService(serviceType: string): Promise<Provider[]> {

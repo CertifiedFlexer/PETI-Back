@@ -46,6 +46,7 @@ export class PostgresUserRepository implements IUserRepository {
   }
 
   async updateUser(user: Partial<User>): Promise<User> {
+    try {
     if (!user.idUsuario) throw new Error("Se requiere el idUsuario para actualizar");
 
     const fields: string[] = [];
@@ -53,23 +54,27 @@ export class PostgresUserRepository implements IUserRepository {
     let index = 1;
 
     for (const [key, value] of Object.entries(user)) {
-      if (key === "idUsuario") continue;
+      if (key === 'idUsuario') continue; // saltar el idUsuario
+      if (value === undefined) continue; // saltar valores undefined
       fields.push(`${this.toSnakeCase(key)} = $${index}`);
       values.push(value);
       index++;
     }
-
+    values.push(user.idUsuario);
     const query = `
       UPDATE peti_bd.usuario
       SET ${fields.join(", ")}, updated_at = NOW()
       WHERE id_usuario = $${index}
       RETURNING *;
     `;
-    values.push(user.idUsuario);
-
+    console.log ("Update Query:", query);
     const res = await this.pool.query(query, values);
     return this.mapToUser(res.rows[0]);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
   }
+}
 
   async getUserById(id: string): Promise<Partial<User> | null> {
     const query = `SELECT id_usuario, nombre, email, activo, id_rol FROM peti_bd.usuario WHERE id_usuario = $1`;
