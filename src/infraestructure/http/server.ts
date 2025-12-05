@@ -22,7 +22,10 @@ fastify.register(multipart, {
 fastify.register(jwt, {
   secret: process.env.JWT_SECRET
 })
-fastify.register(cors)
+fastify.register(cors,{
+  methods: ['GET','POST','PUT','DELETE'],
+  origin: '*'
+})
 fastify.decorate(
   "authenticate",
   async function (request: any, reply: any) {

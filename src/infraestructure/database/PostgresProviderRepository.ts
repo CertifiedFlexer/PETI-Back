@@ -7,7 +7,7 @@ import { injectable, inject } from "tsyringe";
 export class PostgresProviderRepository implements IProviderRepository {
     constructor(@inject("Pool") private pool: Pool) {}
   async create(data: Partial<Provider>): Promise<Provider> {
-    const result = await this.pool.query("INSERT INTO peti_bd.proveedor (nombre_negocio, tipo_servicio, telefono, email, verificado, activo, fecha_registro, created_at, updated_at, descripcion) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *", [data.nombre_negocio, data.tipo_servicio, data.telefono, data.email, data.verificado, data.activo, data.fecha_registro, data.created_at, data.updated_at, data.descripcion]);
+    const result = await this.pool.query("INSERT INTO peti_bd.proveedor (nombre_negocio, tipo_servicio, telefono, email, verificado, activo, fecha_registro, created_at, updated_at, descripcion, id_usuario) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *", [data.nombre_negocio, data.tipo_servicio, data.telefono, data.email, data.verificado, data.activo, data.fecha_registro, data.created_at, data.updated_at, data.descripcion, data.id_usuario]);
     const newProvider = result.rows[0];
     return newProvider;
   }

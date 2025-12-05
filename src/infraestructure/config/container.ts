@@ -152,6 +152,7 @@ container.register('AppointmentService',{
 });
 container.register('CitaController',{
     useClass: CitaController
+});
 container.register("ProviderImageService",{ 
     useClass: ProviderImageService
 });
