@@ -13,7 +13,7 @@ export class PostgresProviderRepository implements IProviderRepository {
   }
 
   async update(data: Provider): Promise<Provider> {
-    const result = await this.pool.query("UPDATE peti_bd.proveedor SET (nombre_negocio, tipo_servicio, telefono, email, verificado, activo, fecha_registro, created_at, updated_at, descripcion) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) WHERE id = $11 RETURNING *", [data.nombre_negocio, data.tipo_servicio, data.telefono, data.email, data.verificado, data.activo, data.fecha_registro, data.created_at, data.updated_at, data.descripcion, data.id_proveedor]);
+    const result = await this.pool.query("UPDATE peti_bd.proveedor SET (nombre_negocio, tipo_servicio, telefono, email, verificado, activo, fecha_registro, created_at, updated_at, descripcion) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) WHERE id_proveedor = $11 RETURNING *", [data.nombre_negocio, data.tipo_servicio, data.telefono, data.email, data.verificado, data.activo, data.fecha_registro, data.created_at, data.updated_at, data.descripcion, data.id_proveedor]);
     const updatedProvider = result.rows[0];
     return updatedProvider;
   }

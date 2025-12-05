@@ -24,7 +24,7 @@ fastify.register(jwt, {
 })
 fastify.register(cors,{
   origin: ['http://localhost:19006', 'http://localhost:3000', '*'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 })
 fastify.decorate(
