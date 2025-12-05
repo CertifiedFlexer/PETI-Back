@@ -32,5 +32,7 @@ export default async (fastify: FastifyInstance) => {
   }, providerController.updateProviderImage.bind(providerController));
   fastify.delete('/providers/:id/image', {
   }, providerController.deleteProviderImage.bind(providerController));
+  fastify.put('/providers/:providerId/subscription', {
+  }, providerController.updateSubscription.bind(providerController));
 };
 

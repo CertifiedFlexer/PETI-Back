@@ -11,4 +11,5 @@ export interface IProviderRepository {
   uploadImage(providerId: string, imageUrl: string): Promise<Provider>;
   updateImage(providerId: string, imageUrl: string): Promise<Provider>;
   deleteImage(providerId: string): Promise<Provider>;
+  updateSubscription(providerId: string): Promise<Provider>;
 }

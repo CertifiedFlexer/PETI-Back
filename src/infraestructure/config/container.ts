@@ -43,6 +43,7 @@ import { CitaService } from '../../application/appointment/Appointment.service';
 import { PostgresAppointmentRepository } from '../database/PostgresAppointmentRepository';
 import { CitaController } from '../controllers/AppointmentController';
 import { ProviderImageService } from '../../application/provider/ProviderImage.service';
+import { UpdateSubscription } from '../../application/provider/updateSubscription';
 
 container.registerInstance<Pool>('Pool', pool);
 container.register<IUserRepository>('UserRepository', {
@@ -155,4 +156,7 @@ container.register('CitaController',{
 });
 container.register("ProviderImageService",{ 
     useClass: ProviderImageService
+});
+container.register("UpdateSubscription",{
+    useClass: UpdateSubscription
 });
