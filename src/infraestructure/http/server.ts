@@ -23,8 +23,9 @@ fastify.register(jwt, {
   secret: process.env.JWT_SECRET
 })
 fastify.register(cors,{
-  methods: ['GET','POST','PUT','DELETE'],
-  origin: '*'
+  origin: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 })
 fastify.decorate(
   "authenticate",
