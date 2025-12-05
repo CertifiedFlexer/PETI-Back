@@ -1,11 +1,17 @@
-export interface Cita {
-  id_cita: string;
-  fecha_hora: Date;
-  notas?: string;
-  id_estado: string;
-  id_usuario: string;
-  id_mascota: string;
-  id_servicio: string;
-  created_at?: Date;
-  updated_at?: Date;
+export type CitaStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed';
+
+export class Cita {
+    constructor(
+        public id: string,
+        public providerId: string,
+        public providerName: string,
+        public providerCategory: string,
+        public userId: string,
+        public userName: string,
+        public date: string,     // YYYY-MM-DD
+        public time: string,     // HH:mm
+        public duration: number,
+        public status: CitaStatus,
+        public createdAt: string
+    ) {}
 }
